@@ -1,0 +1,85 @@
+% Note that this template is based on the IJCAI20 template.
+% The preparation of the IJCAI20 template files was supported by Schlumberger
+% Palo Alto Research, AT\&T Bell Laboratories, and Morgan Kaufmann Publishers.
+% Shirley Jowell, of Morgan Kaufmann Publishers, and Peter F.
+% Patel-Schneider, of AT\&T Bell Laboratories collaborated on their
+% preparation.
+
+\documentclass{article}
+\pdfpagewidth=8.5in % Don't change.
+\pdfpageheight=11in % Don't change.
+\usepackage{Report} % This needs to be included! It's the IJCAI20 .sty file.
+
+% the following package is optional:
+%\usepackage{latexsym}
+
+% See https://www.overleaf.com/learn/latex/theorems_and_proofs
+% for a nice explanation of how to define new theorems, but keep
+% in mind that the amsthm package is already included in this
+% template and that you must *not* alter the styling.
+
+\title{Efficient Coalition Structure Generation via Branch-and-Bound Pruning} % Change to correct year.
+
+\author%
+{
+  Simone De Carli
+  \affiliations{Link\"{o}ping University}
+  \emails{simde798@student.liu.se}
+}
+
+\begin{document}
+
+\maketitle
+\begin{abstract}
+	Coalition Structure Generation (CSG) is a fundamental problem in cooperative multi-agent systems, yet the number of possible coalition structures grows super-exponentially with the number of agents. This report focuses on branch-and-bound pruning, the most widely used and theoretically grounded strategy for reducing the CSG search space while maintaining worst-case optimality guarantees. Building on the seminal framework of Sandholm et al., we examine how admissible upper bounds on coalition-structure values enable the elimination of large subsets of the search space without risking suboptimal solutions. We discuss key bounding heuristics, analyze the conditions under which branch-and-bound achieves substantial pruning, and highlight inherent limitations arising from adversarial valuation functions. The goal is to clarify the role of principled bounding in enabling tractable optimal CSG despite its combinatorial complexity.
+\end{abstract}
+
+\section{Introduction}
+% \begin{itemize}
+%     \item Coalition Structure Generation (CSG) is central to cooperative multi-agent decision making.
+%     \item The search space grows according to the Bell numbers, making exhaustive enumeration infeasible.
+%     \item Branch-and-bound pruning is a principled way to reduce the search space while guaranteeing optimality.
+%     \item This report surveys branch-and-bound techniques and their worst-case guarantees.
+% \end{itemize}
+
+\section{Formal Background}
+\begin{itemize}
+    \item Definitions: agents, coalitions, coalition structures, characteristic function.
+    \item Search-space size and Bell number growth.
+    \item Baseline CSG algorithms and worst-case guarantee framework~\cite{sandholm1999coalition,rahwan2011minimum}.
+\end{itemize}
+
+\section{Branch-and-Bound Pruning}
+% \begin{itemize}
+    % \item Core idea: maintain an upper bound on the best achievable value in a subtree.
+    % \item If the upper bound is lower than the best known solution, prune the subtree.
+    % \item Bounding strategies based on coalition-level value estimates.
+    % \item Admissible heuristics ensure that pruning never removes the optimal structure.
+    % \item Representative methods~\cite{banerjee2010coalition,rahwan2007near,ghazanfar2010novel}.
+% \end{itemize}
+
+\section{Guarantees and Limitations}
+% \begin{itemize}
+    % \item Worst-case guarantees rely on admissible (never overestimating) upper bounds.
+    % \item Some valuation functions cause little to no pruning (hard instances).
+    % \item Analysis of adversarial cases and sensitivity to valuation structure.
+% \end{itemize}
+
+\section{Discussion}
+% \begin{itemize}
+    % \item Practical efficiency can be high even if theoretical worst-case complexity remains exponential.
+    % \item Branch-and-bound remains the most interpretable and reliable optimal CSG method.
+    % \item Comparison with modern heuristic or approximate approaches (not covered).
+% \end{itemize}
+
+\section{Conclusion}
+% \begin{itemize}
+    % \item Branch-and-bound pruning provides strong guarantees for optimal CSG.
+    % \item Significant pruning occurs when good admissible bounds are available.
+    % \item Future work: tighter bounds, integration with domain knowledge, anytime variants.
+% \end{itemize}
+
+\bibliographystyle{named}
+\bibliography{Report}
+
+\end{document}
