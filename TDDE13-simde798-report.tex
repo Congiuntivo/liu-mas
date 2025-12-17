@@ -13,6 +13,9 @@
 % the following package is optional:
 %\usepackage{latexsym}
 
+% My additions:
+\usepackage{amsfonts}
+
 % See https://www.overleaf.com/learn/latex/theorems_and_proofs
 % for a nice explanation of how to define new theorems, but keep
 % in mind that the amsthm package is already included in this
@@ -31,7 +34,7 @@
 
 \maketitle
 \begin{abstract}
-	Coalition Structure Generation (CSG) is a fundamental problem in cooperative multi-agent systems, yet the number of possible coalition structures grows super-exponentially with the number of agents. This report focuses on branch-and-bound pruning, the most widely used and theoretically grounded strategy for reducing the CSG search space while maintaining worst-case optimality guarantees. Building on the seminal framework of Sandholm et al., we examine how admissible upper bounds on coalition-structure values enable the elimination of large subsets of the search space without risking suboptimal solutions. We discuss key bounding heuristics, analyze the conditions under which branch-and-bound achieves substantial pruning, and highlight inherent limitations arising from adversarial valuation functions. The goal is to clarify the role of principled bounding in enabling tractable optimal CSG despite its combinatorial complexity.
+  Coalition Structure Generation (CSG) is a fundamental problem in cooperative multi-agent systems, yet the number of possible coalition structures grows super-exponentially with the number of agents. This report focuses on branch-and-bound pruning, the most widely used and theoretically grounded strategy for reducing the CSG search space while maintaining worst-case optimality guarantees. Building on the seminal framework of Sandholm et al., we examine how admissible upper bounds on coalition-structure values enable the elimination of large subsets of the search space without risking suboptimal solutions. We discuss key bounding heuristics, analyze the conditions under which branch-and-bound achieves substantial pruning, and highlight inherent limitations arising from adversarial valuation functions. The goal is to clarify the role of principled bounding in enabling tractable optimal CSG despite its combinatorial complexity.
 \end{abstract}
 
 \section{Introduction}
@@ -42,42 +45,85 @@
 %     \item This report surveys branch-and-bound techniques and their worst-case guarantees.
 % \end{itemize}
 
+Coalition Structure Generation (CSG) is a core problem in cooperative multi-agent systems, where a set of autonomous agents must be partitioned into disjoint coalitions in order to maximize a global objective. Each coalition yields a value determined by a characteristic function, and the value of a coalition structure is typically defined as the sum of the values of its constituent coalitions. CSG arises in a wide range of applications, including task allocation, distributed sensing, and collaborative decision making.
+
+A fundamental challenge of CSG is its combinatorial complexity. The number of possible coalition structures over $n$ agents is given by the Bell number $B_n$, which grows super-exponentially with $n$. As a result, exhaustive enumeration becomes infeasible even for moderate numbers of agents, making naive search approaches impractical.
+
+To address this challenge, researchers have developed exact algorithms that reduce the effective search space while preserving optimality. Among these, branch-and-bound pruning is the most widely studied and theoretically grounded technique. The key idea is to systematically explore the space of coalition structures while using admissible upper bounds to eliminate regions of the search space that cannot contain an optimal solution.
+
+This report focuses on branch-and-bound pruning methods for CSG, with particular emphasis on their worst-case guarantees. Building on the foundational work of Sandholm et al.~\cite{sandholm1999coalition} and subsequent refinements, we examine how bounding techniques enable principled pruning, under what conditions they are effective, and why certain problem instances remain inherently difficult. The goal is to clarify both the power and the limitations of branch-and-bound as a tool for exact coalition structure generation.
+
 \section{Formal Background}
-\begin{itemize}
-    \item Definitions: agents, coalitions, coalition structures, characteristic function.
-    \item Search-space size and Bell number growth.
-    \item Baseline CSG algorithms and worst-case guarantee framework~\cite{sandholm1999coalition,rahwan2011minimum}.
-\end{itemize}
+% \begin{itemize}
+%   \item Definitions: agents, coalitions, coalition structures, characteristic function.
+%   \item Search-space size and Bell number growth.
+%   \item Baseline CSG algorithms and worst-case guarantee framework~\cite{sandholm1999coalition,rahwan2011minimum}.
+% \end{itemize}
+
+Let $A = \{a_1, \dots, a_n\}$ denote a finite set of $n$ agents. A \emph{coalition} is any non-empty subset $C \subseteq A$. A \emph{coalition structure} (also called a partition) is a set $CS = \{C_1, \dots, C_k\}$ of disjoint coalitions such that $\bigcup_{i=1}^k C_i = A$. The space of all possible coalition structures over $A$ is denoted by $\mathcal{CS}(A)$.
+
+The preferences of agents are captured by a \emph{characteristic function} $v : 2^A \setminus \{\emptyset\} \rightarrow \mathbb{R}$, which assigns a real-valued payoff to each coalition. In the standard formulation of CSG, the value of a coalition structure is defined as the sum of the values of its coalitions, that is,
+\[
+  V(CS) = \sum_{C \in CS} v(C).
+\]
+The objective of coalition structure generation is to find a coalition structure $CS^* \in \mathcal{CS}(A)$ that maximizes $V(CS)$.
+
+The size of the search space grows extremely rapidly with the number of agents. Specifically, the number of coalition structures over $n$ agents is given by the Bell number $B_n$, which grows super-exponentially. This growth renders exhaustive search infeasible even for relatively small values of $n$, and motivates the need for principled search reduction techniques.
+
+Early work on coalition structure generation established baseline algorithms with worst-case performance guarantees. In particular, Sandholm et al.~\cite{sandholm1999coalition} introduced a framework for exact CSG that systematically explores the space of coalition structures while tracking solution quality. Subsequent work refined this framework by analyzing minimal search requirements and formalizing worst-case guarantees~\cite{rahwan2011minimum}. These results provide the theoretical foundation upon which branch-and-bound pruning techniques are built.
 
 \section{Branch-and-Bound Pruning}
 % \begin{itemize}
-    % \item Core idea: maintain an upper bound on the best achievable value in a subtree.
-    % \item If the upper bound is lower than the best known solution, prune the subtree.
-    % \item Bounding strategies based on coalition-level value estimates.
-    % \item Admissible heuristics ensure that pruning never removes the optimal structure.
-    % \item Representative methods~\cite{banerjee2010coalition,rahwan2007near,ghazanfar2010novel}.
+%   \item Core idea: maintain an upper bound on the best achievable value in a subtree.
+%   \item If the upper bound is lower than the best known solution, prune the subtree.
+%   \item Bounding strategies based on coalition-level value estimates.
+%   \item Admissible heuristics ensure that pruning never removes the optimal structure.
+%   \item Representative methods~\cite{banerjee2010coalition,rahwan2007near,ghazanfar2010novel}.
 % \end{itemize}
+
+Branch-and-bound is a search strategy that reduces the CSG search space by eliminating regions that cannot contain an optimal coalition structure. The search space is typically organized as a tree, where each node represents a partial coalition structure and its descendants correspond to refinements obtained by further partitioning agents into coalitions.
+
+The key idea is to associate each node in the search tree with an \emph{upper bound} on the maximum value that any complete coalition structure in the corresponding subtree can achieve. During search, the algorithm maintains the value of the best complete solution found so far. If the upper bound of a node is lower than or equal to this value, the entire subtree rooted at that node can be safely pruned, since it cannot yield a better solution.
+
+Bounding strategies are usually based on coalition-level value estimates. A common approach is to compute an upper bound by assuming that remaining agents can form coalitions that achieve their maximum possible value independently. Importantly, such bounds must be \emph{admissible}, meaning that they never underestimate the true optimal value attainable in the subtree. Admissibility ensures that pruning does not remove the optimal coalition structure.
+
+The foundational work of Sandholm et al.~\cite{sandholm1999coalition} showed that any algorithm aiming to establish theoretical solution-quality guarantees must perform a minimum amount of search. In this context, a worst-case ratio bound $\beta$ denotes an upper bound on how much worse the value of the best solution found so far can be compared to the optimal coalition structure. To obtain an initial bound, the algorithm must explore at least the two lowest levels of the search space, corresponding to coalition structures consisting of either a single grand coalition or all possible bipartitions. This requires evaluating $2^{n-1}$ coalition structures and yields an initial worst-case ratio bound of $\beta = n$.
+
+
+Building on this framework, subsequent work proposed improved bounding heuristics and search strategies to enhance pruning effectiveness. For example, Rahwan et al.~\cite{rahwan2007near} studied anytime variants that rapidly identify high-quality solutions, while Ghazanfar and Prugel-Bennett~\cite{ghazanfar2010novel} introduced heuristic refinements to tighten upper bounds. Extensions to more expressive valuation models, including mixed externalities, were explored by Banerjee and Kraemer~\cite{banerjee2010coalition}.
 
 \section{Guarantees and Limitations}
 % \begin{itemize}
-    % \item Worst-case guarantees rely on admissible (never overestimating) upper bounds.
-    % \item Some valuation functions cause little to no pruning (hard instances).
-    % \item Analysis of adversarial cases and sensitivity to valuation structure.
+%   \item Worst-case guarantees rely on admissible (never overestimating) upper bounds.
+%   \item Some valuation functions cause little to no pruning (hard instances).
+%   \item Analysis of adversarial cases and sensitivity to valuation structure.
 % \end{itemize}
+
+The correctness of branch-and-bound algorithms for coalition structure generation relies on the use of admissible upper bounds. As long as the bounding function never underestimates the maximum achievable value in any subtree, the algorithm is guaranteed to return an optimal coalition structure. This property holds independently of the order in which the search space is explored and forms the basis of worst-case optimality guarantees~\cite{sandholm1999coalition,rahwan2011minimum}.
+
+However, these guarantees come with unavoidable limitations. The minimum-search results of Rahwan et al.~\cite{rahwan2011minimum} show that, regardless of the pruning strategy employed, any exact CSG algorithm must examine a fixed number of coalition structures to establish solution-quality bounds. In the worst case, admissible upper bounds may be too loose to allow significant pruning, causing branch-and-bound to degenerate to near-exhaustive search.
+
+The effectiveness of branch-and-bound is therefore highly sensitive to the structure of the characteristic function. When coalition values exhibit regularities, such as diminishing returns or bounded complementarity, upper bounds tend to be tight and pruning is substantial. In contrast, highly irregular or near-additive valuation functions often result in weak bounds and limited pruning.
+
+These results highlight a fundamental trade-off: while branch-and-bound provides strong correctness and optimality guarantees, it cannot overcome the inherent combinatorial hardness of coalition structure generation in the worst case. Its practical performance depends primarily on problem structure rather than on algorithmic refinements alone.
 
 \section{Discussion}
-% \begin{itemize}
-    % \item Practical efficiency can be high even if theoretical worst-case complexity remains exponential.
-    % \item Branch-and-bound remains the most interpretable and reliable optimal CSG method.
-    % \item Comparison with modern heuristic or approximate approaches (not covered).
-% \end{itemize}
+
+Branch-and-bound pruning occupies a central position in the study of exact coalition structure generation. Its main strength lies in its ability to reconcile optimality guarantees with practical tractability on many problem instances. By exploiting admissible upper bounds, branch-and-bound transforms an intractable exhaustive search into a targeted exploration guided by value estimates.
+
+At the same time, the analysis of worst-case behavior clarifies that branch-and-bound is not a universal solution to the combinatorial explosion inherent in CSG.\ Its performance gains are instance-dependent and arise primarily from structural properties of the characteristic function rather than from the search mechanism itself. This observation helps explain why much of the subsequent literature has focused on improving bounding heuristics or incorporating domain-specific knowledge.
+
+The limitations of exact branch-and-bound methods have also motivated alternative approaches, such as anytime algorithms and approximation techniques, which trade optimality guarantees for scalability. Nevertheless, exact branch-and-bound algorithms play a central role in the CSG literature, as they provide optimal solutions with formal worst-case guarantees and are therefore commonly used as reference points when evaluating anytime or approximate methods~\cite{sandholm1999coalition,rahwan2007near,rahwan2011minimum}.
+
+Overall, branch-and-bound pruning should be viewed not as a cure for the inherent complexity of coalition structure generation, but as a theoretically sound framework that leverages problem structure whenever it is present.
 
 \section{Conclusion}
-% \begin{itemize}
-    % \item Branch-and-bound pruning provides strong guarantees for optimal CSG.
-    % \item Significant pruning occurs when good admissible bounds are available.
-    % \item Future work: tighter bounds, integration with domain knowledge, anytime variants.
-% \end{itemize}
+
+Coalition Structure Generation is a fundamental yet computationally challenging problem in cooperative multi-agent systems, due to the super-exponential growth of the search space. Branch-and-bound pruning provides a principled approach to addressing this challenge by exploiting admissible upper bounds to eliminate large portions of the search space while preserving optimality.
+
+This report has examined the role of branch-and-bound pruning in exact CSG, highlighting both its theoretical guarantees and its practical limitations. While worst-case optimality is ensured as long as bounds remain admissible, the effectiveness of pruning depends strongly on the structure of the characteristic function. In favorable cases, substantial reductions in search effort are possible; in adversarial cases, the inherent combinatorial hardness of the problem remains unavoidable.
+
+Overall, branch-and-bound should be understood as a foundational framework for optimal coalition structure generation rather than a universal solution to scalability. Its significance lies in providing clear correctness guarantees and a rigorous baseline against which alternative, more scalable approaches can be meaningfully evaluated.
 
 \bibliographystyle{named}
 \bibliography{Report}
