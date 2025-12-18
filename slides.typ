@@ -3,7 +3,8 @@
 // Project configuration
 #show: typslides.with(
   ratio: "16-9",
-  theme: "bluey",
+  // theme: "bluey",
+  theme: rgb(0, 184, 231),
   font: "Fira Sans",
   font-size: 20pt,
   link-style: "color",
