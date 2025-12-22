@@ -1,0 +1,175 @@
+\documentclass[10pt]{article}
+\usepackage{geometry}
+\usepackage{amsmath}
+\geometry{letterpaper}
+
+% chktex-file 10
+% chktex-file 9
+
+\title{Exercise Set \{2\} Submission (2025)}
+\author{Simone De Carli \, (simde798)}
+\begin{document}
+\maketitle
+
+\section*{Answers}
+
+\subsection*{1)}
+
+Arrow's impossibility theorem answers the question of whether it is
+possible to combine individual preferences into a collective decision
+that fairly represents the preferences of all individuals involved.
+The answer is simply negative.
+
+The theorem states that, with three or more options, it is impossible
+to formulate any social welfare function that produces in every an
+ordering that satisfies all of the three intuitively desirable
+following conditions:
+
+\begin{itemize}
+\item \textbf{Pareto Efficiency (PE)}: If every agent prefers option
+  A over option B, then the resulting social ordering should also
+  prefer A over B.
+\item \textbf{Independence of Irrelevant Alternatives (IIA)}: The
+  social preference between options A and B should depend only on the
+  individual preferences between A and B, and not be influenced by
+  preferences regarding other options.
+\item \textbf{Non-dictatorship (ND)}: There should be no single agent
+  whose preferences always determine the social preference,
+  regardless of other agents' preferences.
+\end{itemize}
+
+The consequence of Arrow's theorem is that when designing a voting
+system or social choice mechanism, one must accept that at least one
+of these desirable properties will be violated, in other words, there
+is no perfect voting system.
+
+Since we can assume that ND is a fundamental requirement for any
+reasonable voting system, we are left to choose between PE and
+IIA.\ Different voting systems prioritize these properties
+differently, leading to various trade-offs in terms of fairness,
+representation, and susceptibility to strategic manipulation.
+
+For example, plurality voting satisfies PE and ND but can violate IIA
+because the introduction or removal of irrelevant alternatives can
+change the outcome.
+
+\subsection*{2)}
+
+Plurality voting is not necessarily dominant-strategy truthful since
+there are scenarios where a voter can achieve a more favorable
+outcome by misrepresenting their true preferences.
+
+Consider a simple election with three candidates: $A$, $B$, and $C$,
+and five voters with the following preferences:
+
+\begin{align*}
+\text{Voter 1: } & A \succ C \succ B \\
+\text{Voters 2-3: } & B \succ C \succ A \\% chktex 8
+\text{Voters 4-5: } & C \succ A \succ B \\% chktex 8
+\end{align*}
+
+Let us also assume a tiebreaker rule choosing the candidate with the
+lowest alphabetical order in case of a tie.
+
+In this scenario, if everyone votes truthfully, the outcome
+would be:
+\[A: 1, B: 2, C: 2,\]
+
+leading to a tie between candidates $B$ and $C$, with $B$ winning due
+to the tiebreaker rule.\\
+
+However, if Voter 1 strategically votes $C$ instead of their favorite
+$A$, the votes would be:
+\[A: 0, B: 2, C: 3.\]
+
+Leading to $C$ winning the election. Since $C$ is strictly preferred
+by Voter 1 to $B$, this misreport strictly improves Voter 1's outcome.
+
+Therefore there exists a profile and a unilateral misreport that
+benefits a voter, so truthful reporting is not a dominant strategy
+under plurality voting. We can conclude that plurality is not
+dominant-strategy truthful.
+
+\subsection*{3)}
+
+The \textit{Condorcet winner} is the candidate (outcome) who would
+win (be preferred by a majority) in a pairwise comparison against
+each of the other candidates.
+
+In this case $C$ is the \textit{Condorcet winner} since:
+\begin{align*}
+C \text{ vs } A: & \quad P1, P2, P5 &
+C \succ A \quad \text{by majority}\\
+C \text{ vs } B: & \quad P1, P3, P4 &
+C \succ B \quad \text{by majority}\\
+C \text{ vs } D: & \quad P1, P2, P3, P5 &
+C \succ D \quad \text{by majority}\\
+\end{align*}
+
+\subsection*{4)}
+
+It may be preferable to choose a \textit{Condorcet winner} over a
+\textit{plurality winner} in situations where the goal is to select a
+candidate that has broad support across the electors. For example, in
+a board of directors election, selecting a \textit{Condorcet winner}
+can ensure that the chosen candidate is acceptable to the majority of
+board members and possibly lead to more cohesive decision-making
+which is crucial for effective governance.
+In this case a \textit{plurality winner} may not reflect the overall
+preference of the group, but could instead be a candidate who is
+favored by a strong minority, potentially leading to dissatisfaction
+among the majority, especially in scenarios where a candidate is
+strongly polarizing.
+
+Let's consider an election with three candidates: $A$, $B$, and $C$,
+and 9 voters with the following preferences:
+
+\begin{align*}
+\text{4 members: } & A \succ B \succ C \\
+\text{3 members: } & C \succ B \succ A \\
+\text{2 members: } & B \succ C \succ A \\
+\end{align*}
+
+In this case, candidate $A$ is the \textit{plurality winner} with 4
+votes, while candidate $B$ is the \textit{Condorcet winner}. This
+highlights how a polarizing candidate ($A$) can win under plurality
+voting, while a more broadly acceptable candidate ($B$) is preferred
+in head-to-head comparisons.
+
+\subsection*{5)}
+
+In a sealed-bid single-item Vickrey auction, a truthful bidder is guaranteed to get a non-negative utility since:
+\begin{itemize}
+\item If the bidder wins the auction by bidding their true valuation $v_i$, they pay the second-highest bid $b_{(second)}$. Their utility is then:
+\[u_i = v_i - b_{(second)}.\]
+Since $b_{(second)} \leq v_i$ (the second-highest bid cannot exceed the bidder's own valuation), the utility $u_i$ is non-negative.
+\item If the bidder does not win the auction, their utility is:
+\[u_i = 0,\]
+which is also non-negative.
+\end{itemize}
+
+\subsection*{6)}
+
+\subsubsection*{Indirect Mechanisms}
+
+Indirect mechanisms ask agents to submit messages or actions that are not necessarily representative of their true private preferences. The mechanism then interprets these messages and chooses an outcome. Bidding in most auction formats is indirect because the bid is just a message, not a required revelation of the true valuation.
+
+\textbf{Example:} A first-price sealed-bid auction is an indirect mechanism: bidders submit a bid (a strategic message), not their actual valuation.
+
+\subsubsection*{Direct Mechanisms}
+
+Direct mechanisms ask agents to report their true private preferences and the mechanism chooses an outcome based directly on those reports.
+
+\textbf{Example:} A sealed-bid single-item Vickrey auction is a direct mechanism: bidders report their valuations, and truthful reporting is a dominant strategy.
+
+\subsection*{7)}
+
+When bids are additive, each good's value is independent of the others. In this case, the winner determination problem decomposes into a set of independent decisions: for each individual good, we simply allocate it to the bidder who values it most. Since there is no interaction between goods, the problem can be solved in polynomial time with respect to the number of items and bids.
+
+But when synergies are present, the value of a bundle of goods can be greater than (complementarities) or less than (substitutabilities) the sum of the values of individual goods. In this case, the winner determination problem becomes NP-hard because it corresponds to solving the \textit{Weighted Set Packing Problem}, which is a generalization of the \textit{Set Packing Problem}, proven to be NP-hard by Karp in 1972.
+
+The \textit{Weighted Set Packing Problem} involves selecting a collection of disjoint sets from a given family of sets, each with an associated weight, so that the total weight is maximized. In the context of combinatorial auctions with synergies, each bid corresponds to a set of goods with a certain value (weight), and the goal is to select a combination of non-overlapping bids that maximizes total value.
+
+The computational cost is high because synergies destroy the additivity and thus the decomposability of the problem: we can no longer decide allocations item-by-item. Instead, determining the optimal allocation requires searching through combinations of bundles, and the number of such combinations grows exponentially with the number of goods and bids.
+
+\end{document}% chktex 17

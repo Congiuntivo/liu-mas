@@ -1,0 +1,335 @@
+\documentclass[10pt]{article}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\geometry{letterpaper}
+
+\title{Exercise Set \{1\} Submission (2025)}
+\author{Simone De Carli \, (simde798)}
+\begin{document}
+\maketitle
+
+\section*{Answers}
+
+\subsection*{1)}
+
+vN-M utility function represents an agent's preferences over uncertain outcomes. It assigns a utility value to each possible outcome in a way that reflects the agent's attitude toward risk and reward trade-offs.
+
+vN-M utility functions satisfy the properties of completeness, transitivity, continuity, and independence that are essential for rational decision-making under uncertainty. These properties ensure that the agent's preferences can be represented mathematically such that decisions can be made by computing and maximizing expected utility.
+
+An example would be chosing between 3 different jobs:
+\begin{itemize}
+\item A:\@ Fixed salary of 50k per year.
+\item B:\@ 70k per year with a 50\% chance, otherwise 30k.
+\item C:\@ 100k per year with a 20\% chance, otherwise 20k.
+\end{itemize}
+
+\noindent
+Suppose my utility function is $u(50k) = 100$, $u(70k) = 150$, $u(30k) = 40$, $u(100k) = 180$, $u(20k) = 10$.
+
+\noindent
+Then the expected utilities are:
+
+\begin{itemize}
+\item $EU(A) = u(50k) = 100$
+\item $EU(B) = 0.5\cdot u(70k) + 0.5\cdot u(30k) = 0.5\cdot 150 + 0.5\cdot 40 = 95$
+\item $EU(C) = 0.2\cdot u(100k) + 0.8\cdot u(20k) = 0.2\cdot 180 + 0.8\cdot 10 = 44$
+\end{itemize}
+
+
+So I would choose job A.
+
+\subsection*{2)}
+
+\subsubsection*{common-payoff game}
+
+A common-payoff game is a type of game in which all players receive the same payoff for any given outcome. In other words, they share the same utility function and their interests are perfectly aligned.
+
+An example of a common-payoff game is where two people are to give each other a high-five. If both players choose to high-five with the right hand, they both receive a payoff of 1. If both choose to high-five with the left hand, they also receive a payoff of 1. However, if one player chooses the right hand and the other chooses the left hand, they both receive a payoff of 0.
+
+\subsubsection*{zero-sum game}
+
+A zero-sum game is a special case of a constant-sum game where the total payoff for all players is always zero. In other words, one player's gain is exactly balanced by the losses and gains of the other players.
+
+\subsubsection*{constant-sum game}
+
+A constant-sum game is a type of game in which the total payoff for all players remains constant, regardless of the outcome. So there is a fixed amount of utility that is distributed among the players based on their actions.
+
+An example of a constant-sum game is a round of the \href{https://en.wikipedia.org/wiki/Musical_chairs}{musical chairs} game. In this game, there are a fixed number of chairs (the total utility) and players compete to sit in them when the music stops. The total number of chairs remains constant, but the distribution of chairs among players changes based on their actions.
+
+\subsection*{3)}
+
+\subsubsection*{Game 1}
+
+\begin{tabular}{c|c|c}
+& L & R \\
+\hline
+U & 1,1 & 1,0 \\
+\hline
+D & -1,1 & 0,1 \\
+\end{tabular}\\
+
+\noindent
+\textbf{Pure strategy Nash equilibria:}
+
+(U,L) is a Nash equilibrium. Neither player can improve their payoff by unilaterally changing their strategy.
+
+\begin{itemize}
+\item If Player 1 chooses U, Player 2's best response is L (payoff 1 vs. 0).
+\item If Player 2 chooses L, Player 1's best response is U (payoff 1 vs. -1).
+\end{itemize}
+
+There are no other pure strategy Nash equilibria in this game.
+
+\noindent
+\textbf{Mixed strategy Nash equilibria:}
+
+Let Player 2 play L with probability p and R with probability (1-p). For Player 1 to be indifferent between U and D we have:
+
+\begin{align*}
+EU(U) &= EU(D) \\
+1 \cdot p + 1 \cdot (1-p) &= -1 \cdot p + 0 \cdot (1-p) \\
+1 &= -p \\
+p &= -1
+\end{align*}
+
+Since p cannot be negative, there are no fully mixed strategy Nash equilibria in this game. This is ok with Nash theorem since we already found a pure strategy Nash equilibrium.
+
+\subsubsection*{Game 2}
+
+\begin{tabular}{c|c|c}
+& X & Y \\
+\hline
+A & 1,0 & 0,1 \\
+\hline
+B & 0,1 & 1,0 \\
+\end{tabular}\\
+
+\noindent
+\textbf{Pure strategy Nash equilibria:}
+
+It is easy to see that there are no pure strategy Nash equilibria in this game. Since for every outcome, at least one player would benefit from deviating unilaterally. From Nash theorem, we know that there must be at least one mixed strategy Nash equilibrium.
+
+\noindent
+\textbf{Mixed strategy Nash equilibria:}
+
+Let Player 2 play X with probability p and Y with probability (1-p). For Player 1 to be indifferent between A and B we have:
+
+\begin{align*}
+EU(A) &= EU(B) \\
+1 \cdot p + 0 \cdot (1-p) &= 0 \cdot p + 1 \cdot (1-p) \\
+p &= 1 - p \\
+2p &= 1 \\
+p &= \frac{1}{2}
+\end{align*}
+
+So Player 2 should play X with probability $\frac{1}{2}$ and Y with probability $\frac{1}{2}$.
+
+Let Player 1 play A with probability q and B with probability (1-q). For Player 2 to be indifferent between X and Y we have:
+
+\begin{align*}
+EU(X) &= EU(Y) \\
+0 \cdot q + 1 \cdot (1-q) &= 1 \cdot q + 0 \cdot (1-q) \\
+1 - q &= q \\
+1 &= 2q \\
+q &= \frac{1}{2}
+\end{align*}
+
+So Player 1 should play A with probability $\frac{1}{2}$ and B with probability $\frac{1}{2}$.
+
+We have found a unique mixed strategy Nash equilibrium where both players randomize equally between their strategies.
+
+\subsubsection*{Game 3}
+
+\begin{tabular}{c|c|c}
+& C1 & C2 \\
+\hline
+R1 & 1,3 & 2,1 \\
+\hline
+R2 & 2,1 & 1,4 \\
+\end{tabular}\\
+
+\noindent
+\textbf{Pure strategy Nash equilibria:}
+
+There is no pure strategy Nash equilibria in this game. Since for every outcome, at least one player would benefit from deviating unilaterally. From Nash theorem, we know that there must be at least one mixed strategy Nash equilibrium.
+
+\noindent
+\textbf{Mixed strategy Nash equilibria:}
+Let Player 2 play C1 with probability p and C2 with probability (1-p). For Player 1 to be indifferent between R1 and R2 we have:
+
+\begin{align*}
+EU(R1) &= EU(R2) \\
+1 \cdot p + 2 \cdot (1-p) &= 2 \cdot p + 1 \cdot (1-p) \\
+2 - p &= p + 1 \\
+1 &= 2p \\
+p &= \frac{1}{2}
+\end{align*}
+
+So Player 2 should play C1 with probability $\frac{1}{2}$ and C2 with probability $\frac{1}{2}$.
+
+Let Player 1 play R1 with probability q and R2 with probability (1-q). For Player 2 to be indifferent between C1 and C2 we have:
+
+\begin{align*}
+EU(C1) &= EU(C2) \\
+3 \cdot q + 1 \cdot (1-q) &= 1 \cdot q + 4 \cdot (1-q) \\
+2q + 1 &= 4 - 3q \\
+5q &= 3 \\
+q &= \frac{3}{5}
+\end{align*}
+
+So Player 1 should play R1 with probability $\frac{3}{5}$ and R2 with probability $\frac{2}{5}$.
+
+We have found a unique mixed strategy Nash equilibrium where Player 1 plays R1 with probability $\frac{3}{5}$ and R2 with probability $\frac{2}{5}$, while Player 2 plays C1 with probability $\frac{1}{2}$ and C2 with probability $\frac{1}{2}$.
+
+\subsection*{4)}
+
+\begin{tabular}{c|c|c}
+& A & B \\
+\hline
+X & 4,-3 & -2,1 \\
+\hline
+Y & 0,0 & 5,-6 \\
+\end{tabular}
+
+\vspace{1em}
+
+To find a maximin strategy for the row player, we first determine the minimum payoff for each of their strategies:
+
+\vspace{1em}
+
+\noindent
+\begin{tabular}{c|c|c|c}
+& A & B & Min Payoff \\
+\hline
+X & 4,-3 & -2,1 & -2 \\
+\hline
+Y & 0,0 & 5,-6 & 0 \\
+\end{tabular}
+
+\vspace{2em}
+
+The row player's maximin strategy is to choose the strategy that maximizes their minimum payoff. In this case, the maximum of the minimum payoffs is 0, which corresponds to strategy Y. Therefore, the row player's maximin strategy is to play Y. The maximin value is 0.
+
+
+\subsection*{5)}
+
+Cooperative games allow players to make binding agreements, form coalitions, and coordinate their actions to achieve better outcomes together. In non-cooperative games, players act independently: they choose strategies on their own, and no agreement can be enforced.
+
+\subsubsection*{Non-cooperative game}
+
+Consider two competing car sharing companies who must each decide which zone of a city to work in: Zone A (high demand) or Zone B (lower demand). If both choose Zone A, they split the demand and earn less; if only one goes to Zone A while the other goes to Zone B, the driver in Zone A earns more. Each driver's payoff depends on what the other chooses, but they cannot make any binding agreement about where to go. This is a non-cooperative game because each player chooses their strategy independently.
+
+\subsubsection*{Cooperative game}
+
+Now consider a group of $N$ startups that want to develop a new AI-powered hair dryer. By forming a consortium, they can pool their technical expertise, R\&D resources, and distribution networks. Working together allows them to build a better product and capture a larger share of the market. Since they can form a binding agreement about sharing costs and profits, this is a cooperative game: the startups form a coalition to improve their collective outcome.
+
+\subsection*{6)}
+
+\subsubsection*{a)}
+
+Let's consider a non-convex cooperative game where three musicians have to form a band. The musicians are Grace, playing guitar, Paul, playing piano, and Don, playing drums. The value of each coalition is defined as follows:
+
+\begin{itemize}
+\item $v(\emptyset) = 0$ (no musicians, no songs)
+\item $v(\{G\}) = 4$ (Grace alone can perform simple songs)
+\item $v(\{P\}) = 5$ (Paul alone can perform more complex songs)
+\item $v(\{D\}) = 1$ (Don alone can perform basic rhythms)
+\item $v(\{G,P\}) = 10$ (Grace and Paul together can perform more complex songs)
+\item $v(\{G,D\}) = 9$ (Grace and Don together can perform nice songs)
+\item $v(\{P,D\}) = 3$ (Paul and Don together are not very effective)
+\item $v(\{G,P,D\}) = 15$ (All three together can perform the best songs)
+\end{itemize}
+
+\subsubsection*{b)}
+
+Let's compute Paul's marginal contributions:
+\begin{itemize}
+\item $\Delta_{P}(\emptyset) = v(\emptyset \cup \{P\}) - v(\emptyset) = 5 - 0 = 5$
+\item $\Delta_{P}(\{G\}) = v(\{G\} \cup \{P\}) - v(\{G\}) = 10 - 4 = 6$
+\item $\Delta_{P}(\{D\}) = v(\{D\} \cup \{P\}) - v(\{D\}) = 3 - 1 = 2$
+\item $\Delta_{P}(\{G,D\}) = v(\{G,D\} \cup \{P\}) - v(\{G,D\}) = 15 - 9 = 6$
+\end{itemize}
+
+Now, we can calculate Paul's Shapley value by averaging his marginal contributions across all possible coalitions:
+
+\begin{align*}
+\phi_{P} &= \frac{1}{3!} \cdot
+\biggl[
+\Bigl(0! \cdot (3 - 0 - 1)! \cdot \Delta_{P}(\emptyset) \Bigr) +
+\Bigl(1! \cdot (3 - 1 - 1)! \cdot \Delta_{P}(\{G\}) \Bigr) \\
+&+ \Bigl(1! \cdot (3 - 1 - 1)! \cdot \Delta_{P}(\{D\}) \Bigr) +
+\Bigl(2! \cdot (3 - 2 - 1)! \cdot \Delta_{P}(\{G,D\}) \Bigr)
+\biggr] \\
+&= \frac{1}{6}
+\left[
+1 \cdot 2! \cdot 5 +
+1 \cdot 1! \cdot 6 +
+1 \cdot 1! \cdot 2 +
+2 \cdot 0! \cdot 6
+\right] \\
+&= \frac{10 + 6 + 2 + 12}{6}
+= \frac{30}{6} = 5
+\end{align*}
+
+Thus, Paul's Shapley value is $5$ that represents the average marginal contribution he makes to all possible coalitions in all possible orders of joining the band. It can be interpreted as his fair share of the total value generated by the band.
+
+\subsubsection*{c)}
+
+To prove that this game is non-convex, we just need to find a counterexample to the convexity condition:
+\[v(S \cup T) \geq v(S) + v(T) - v(S \cap T)\]
+
+and we can see that for the coalition $S = \{P\}$ and $T = \{D\}$:
+\begin{align*}
+v(S \cup T) &= v(\{P,D\}) = 3 \\
+v(S) + v(T) - v(S \cap T) &= v(\{P\}) + v(\{D\}) - v(\emptyset) = 5 + 1 - 0 = 6
+\end{align*}
+
+Therefore:
+\[v(S \cup T) = 3 \not\geq 6 = v(S) + v(T) - v(S \cap T)\]
+
+\subsubsection*{d)}
+
+A game is additive if for any two disjoint coalitions S and T, the value of their union equals the sum of their individual values.
+We can see that the game is not additive, since for example:
+\[v(\{P\} \cup \{D\}) \neq v(\{P\}) + v(\{D\})\]
+because:
+\[v(\{P,D\}) = 3 \neq 6 = v(\{P\}) + v(\{D\})\]
+
+Thus, the game is not superadditive either, since superadditivity requires that for any two disjoint coalitions S and T, the value of their union is at least as great as the sum of their individual values.
+
+\subsection*{7)}
+
+Let's enumerate all the possible $CS_i \in \Pi$:
+
+\begin{enumerate}
+\item $CS_{1} = \{\{1,2,3\}\}$
+\item $CS_{2} = \{\{1,2\},\{3\}\}$
+\item $CS_{3} = \{\{1,3\},\{2\}\}$
+\item $CS_{4} = \{\{2,3\},\{1\}\}$
+\item $CS_{5} = \{\{1\},\{2\},\{3\}\}$
+\end{enumerate}
+
+Now, we can compute the values sum of each coalition structure values:
+
+\begin{enumerate}
+\item $\sum_{C \in CS_{1}} v((C, CS_{1})) = v((\{1,2,3\}, CS_{1}) = 2$
+\item $\sum_{C \in CS_{2}} v((C, CS_{2})) = v((\{1,2\}, CS_{2}) + v((\{3\}, CS_{2}) = 2 + 1 = 3$
+\item $\sum_{C \in CS_{3}} v((C, CS_{3})) = v((\{1,3\}, CS_{3}) + v((\{2\}, CS_{3}) = 3 + 1 = 4$
+\item $\sum_{C \in CS_{4}} v((C, CS_{4})) = v((\{2,3\}, CS_{4}) + v((\{1\}, CS_{4}) = 0 + 1 = 1$
+\item $\sum_{C \in CS_{5}} v((C, CS_{5})) = v((\{1\}, CS_{5}) + v((\{2\}, CS_{5}) + v((\{3\}, CS_{5}) = 0 + 0 + 1.5 = 1.5$
+\end{enumerate}
+
+Then:
+\[\max_{CS_{i} \in \Pi} \sum_{C \in CS_{i}} v((C, CS_{i})) = 4\]
+
+and:
+
+\[\arg\max_{CS_{i} \in \Pi} \sum_{C \in CS_{i}} v((C, CS_{i})) = CS_{3} = \{\{1,3\},\{2\}\} = CS_{3}\]
+
+\subsection*{8)}
+
+In partition-function games, the marginal contribution of a player to a coalition depends on the entire coalition structure. As a result, extending the Shapley value requires additional assumptions about how outsider coalitions react when a player joins or leaves a coalition. Different assumptions (e.g., fixing the partition, averaging over partitions, or modelling a coalition-formation process) lead to different “Shapley-type” values, implying that no unique extension exists once externalities are present. This means that any Shapley-based payoff depends heavily on the chosen assumptions and can change if those assumptions change.
+
+\end{document}
